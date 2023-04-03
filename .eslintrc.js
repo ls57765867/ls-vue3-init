@@ -5,19 +5,11 @@ module.exports = {
     node: true
   },
   extends: ['plugin:vue/vue3-essential', 'plugin:prettier/recommended', './.eslintrc-auto-import.json'],
-  globals: {
-    defineProps: 'readonly',
-    defineEmits: 'readonly',
-    describe: 'readonly',
-    it: 'readonly',
-    expect: 'readonly',
-    global: 'readonly'
-    // uni: 'writable',
-  },
   parser: 'vue-eslint-parser',
   parserOptions: {
-    ecmaVersion: 12,
-    sourceType: 'module'
+    ecmaVersion: 'latest',
+    sourceType: 'module',
+    parser: '@typescript-eslint/parser' // 支持ts
   },
   plugins: ['vue'],
   rules: {
