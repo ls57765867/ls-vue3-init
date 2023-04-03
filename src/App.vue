@@ -12,6 +12,7 @@
 import { useBaseStore } from './store'
 import { storeToRefs } from 'pinia'
 
+const state = reactive({})
 const { name, age, doubleAge } = storeToRefs(useBaseStore())
 const store = useBaseStore()
 

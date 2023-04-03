@@ -11,6 +11,7 @@ export default defineConfig({
     AutoImport({
       imports: ['vue', 'vue-router', { pinia: ['defineStore', 'storeToRefs'] }],
       dirs: ['./components/**'],
+      dts: true,
       resolvers: [ElementPlusResolver()],
       eslintrc: {
         enabled: true // <-- this

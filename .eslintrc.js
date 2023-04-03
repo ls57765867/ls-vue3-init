@@ -4,7 +4,7 @@ module.exports = {
     es2021: true,
     node: true
   },
-  extends: ['plugin:vue/vue3-essential', 'plugin:prettier/recommended'],
+  extends: ['plugin:vue/vue3-essential', 'plugin:prettier/recommended', './.eslintrc-auto-import.json'],
   globals: {
     defineProps: 'readonly',
     defineEmits: 'readonly',
@@ -40,7 +40,7 @@ module.exports = {
     'no-spaced-func': 2, // 函数调用时 函数名与()之间不能有空格
     'no-sparse-arrays': 2, // 禁止稀疏数组， [1,,2]
     'no-trailing-spaces': 2, // 一行结束后面不要有空格
-    'no-undef': 0, // 不能有未定义的变量
+    'no-undef': 'off', // 不能有未定义的变量
     'no-use-before-define': 1, // 未定义前不能使用
     'no-useless-escape': 2, // 不允许在字符串和正则表达式中使用无意义的换行符
     'no-var': 2, // 禁用var，用let和const代替
