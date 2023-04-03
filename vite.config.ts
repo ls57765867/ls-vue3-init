@@ -11,10 +11,11 @@ export default defineConfig({
     AutoImport({
       imports: ['vue', 'vue-router', { pinia: ['defineStore', 'storeToRefs'] }],
       dirs: ['./components/**'],
-      resolvers: [ElementPlusResolver()],
-      eslintrc: {
-        enabled: true // <-- this
-      }
+      dts: true,
+      resolvers: [ElementPlusResolver()]
+      // eslintrc: {
+      //   enabled: true // <-- this
+      // }
     }),
     Components({
       resolvers: [ElementPlusResolver()]
