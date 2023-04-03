@@ -10,10 +10,11 @@ module.exports = {
     defineEmits: 'readonly',
     describe: 'readonly',
     it: 'readonly',
-    expect: 'readonly'
-
+    expect: 'readonly',
+    global: 'readonly'
     // uni: 'writable',
   },
+  parser: 'vue-eslint-parser',
   parserOptions: {
     ecmaVersion: 12,
     sourceType: 'module'
@@ -122,6 +123,7 @@ module.exports = {
     'vue/attributes-order': 'off',
     'vue/no-unused-components': 'off',
     'vue/no-side-effects-in-computed-properties': 'off',
-    'vue/singleline-html-element-content-newline': 'off'
+    'vue/singleline-html-element-content-newline': 'off',
+    'vue/multi-word-component-names': 'off'
   }
 }
