@@ -13,8 +13,8 @@
 import { useBaseStore } from './store'
 import { storeToRefs } from 'pinia'
 const state = reactive({ test: 'test' })
-const { name, age, doubleAge } = storeToRefs(useBaseStore())
 const store = useBaseStore()
+const { name, age, doubleAge } = storeToRefs(store)
 
 const editName = () => {
   store.setName()
@@ -23,3 +23,5 @@ const editAge = () => {
   age.value++
 }
 </script>
+
+<style lang="scss" scoped></style>
