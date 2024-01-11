@@ -12,6 +12,7 @@
 <script setup lang="ts">
 import { useBaseStore } from './store'
 import { storeToRefs } from 'pinia'
+import { getTest } from '@/api'
 const state = reactive({ test: 'test' })
 const store = useBaseStore()
 const { name, age, doubleAge } = storeToRefs(store)
@@ -19,6 +20,9 @@ const { name, age, doubleAge } = storeToRefs(store)
 const editName = () => {
   store.setName()
 }
+getTest().then(res => {
+  console.log(res, 222)
+})
 const editAge = () => {
   age.value++
 }
