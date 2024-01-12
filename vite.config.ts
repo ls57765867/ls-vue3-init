@@ -2,10 +2,38 @@ import { defineConfig, loadEnv } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import AutoImport from 'unplugin-auto-import/vite'
 import Components from 'unplugin-vue-components/vite'
-import { ElementPlusResolver } from 'unplugin-vue-components/resolvers'
+import { ElementPlusResolver, VantResolver } from 'unplugin-vue-components/resolvers'
 import jsx from '@vitejs/plugin-vue-jsx'
+import autoprefixer from 'autoprefixer'
 import path from 'path'
-import { createCache } from 'rollup'
+import tailwindcss from 'tailwindcss'
+import { Plugin } from 'postcss'
+
+interface Options {
+  viewportWidth?: number
+}
+
+const _options = {
+  viewportWidth: 750 // UI设计稿的宽度，可以修改(375,750)，默认给375
+}
+
+export const PostCssPxToViewport = (options: Options = _options): Plugin => {
+  const opt = Object.assign({}, _options, options)
+  return {
+    postcssPlugin: 'postcss-px-to-viewport',
+    Declaration(node) {
+      // 有些px可能不需要转换  可以自定义名称
+      if (
+        !node.source.input.file.includes('/node_modules/') &&
+        parseFloat(node.value) > 12 &&
+        node.value.includes('px')
+      ) {
+        const num = parseFloat(node.value) // 考虑到有小数
+        node.value = `${((num / opt.viewportWidth) * 100).toFixed(2)}vw`
+      }
+    }
+  }
+}
 
 // https://vitejs.dev/config/
 export default ({ mode }) =>
@@ -23,45 +51,28 @@ export default ({ mode }) =>
         }
       }),
       Components({
-        resolvers: [ElementPlusResolver()]
-      }),
-      {
-        name: 'custom-post-build',
-        // config(config) {
-        //   console.log('config')
-        //   console.log(config)
-        //   console.log(111111)
-        //   return {
-        //     test: 'test'
-        //   }
-        // },
-        // configResolved(config) {
-        //   console.log(config)
-        // },
-        //   resolveId() {
-        //     // console.log(__dirname)
-        //   },
-        // transform(code, id) {
-        //   const filterName = __dirname + '/node_modules'
-        //   if (!id.includes(filterName)) {
-        //     console.log(id, 0)
-        //   }
-        // }
-        // writeBundle(options, bundle) {
-        //   bundle['assets/test.js'] = bundle['assets/HelloWorld-[my-hash]-2222.js']
-        //   // console.log(bundle)
-
-        //   // console.log(Object.keys(bundle), 111)
-        // },
-
-        // // 这个是rollup独有的钩子,这个狗子是处理hash占位符的,vite不能使用
-
-        generateBundle(options, bundle, isProxy) {
-          // bundle['assets/test.js'] = bundle['assets/index-[my-hash]-1111.js']
-          bundle['assets/HelloWorld-[my-hash]-2222.js'].fileName = 'assets/index-test-33333.css'
-        }
-      }
+        resolvers: [ElementPlusResolver(), VantResolver()]
+      })
     ],
+    css: {
+      postcss: {
+        plugins: [
+          tailwindcss(),
+          autoprefixer({
+            // 自动添加前缀 的浏览器
+            overrideBrowserslist: [
+              'Android 4.1',
+              'iOS 7.1',
+              'Chrome > 31',
+              'ie >= 8'
+              //'last 2 versions', // 所有主流浏览器最近2个版本
+            ],
+            grid: true
+          }),
+          PostCssPxToViewport()
+        ]
+      }
+    },
     build: {
       rollupOptions: {
         output: {
